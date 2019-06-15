@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Topic Bulletin Sample SAM Template for topic-bulletin
+Globals:
+  Function:
+    Timeout: 6
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://l2l/2ce21642f975ad644b17ad2a88374f8f
+      Handler: app.lambda_handler
+      Runtime: nodejs8.10
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+  DispatchFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://l2l/2ce21642f975ad644b17ad2a88374f8f
+      Handler: dispatcher.lambda_handler
+      Runtime: nodejs8.10
+      Events:
+        PubEventDispatch:
+          Type: SNS
+          Properties:
+            Topic: arn:aws-cn:sns:cn-northwest-1:148543509440:context-sharing-output-channel
+            FilterPolicy:
+              event_type:
+              - dispatch
+  RegisterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://l2l/2ce21642f975ad644b17ad2a88374f8f
+      Handler: register.lambda_handler
+      Runtime: nodejs8.10
+      Events:
+        SubEventDispatch:
+          Type: SNS
+          Properties:
+            Topic: arn:aws-cn:sns:cn-northwest-1:148543509440:context-sharing-output-channel
+            FilterPolicy:
+              event_type:
+              - registration
+Outputs:
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
+  HelloWorldFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - HelloWorldFunction
+      - Arn
+  HelloWorldFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - HelloWorldFunctionRole
+      - Arn
