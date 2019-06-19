@@ -2,7 +2,7 @@
 // const url = 'http://checkip.amazonaws.com/';
 let response;
 const chinaTime = require('china-time');
-var s3_util = require('./s3-util.js');
+var s3_util = require('../s3-util.js');
 var AWS = require('aws-sdk');
 var fs = require('fs');
 var UUID = require('uuid');
@@ -21,23 +21,13 @@ exports.lambda_handler = async (event, context) => {
       var db_tables = global_conf.db_tables;
 
       console.log(event.Records[0].Sns);
-      // var msg = JSON.parse(event.Records[0].Sns.Message);
-      var msg = {
-        "msg_Type": "Registration",
-        "member_Type": "coordinator",
-        "name": "Logistics Vessel coordinator",
-        "ID": null,
-        "business_Key": "lvc",
-        "description": "Coordinator between vessel and logistics company",
-        "input_Channel": "arn:aws-cn:sns:cn-northwest-1:148543509440:context-sharing-input-channel"
-      };
+      var msg = JSON.parse(event.Records[0].Sns.Message);
       //if event is type of 'Registration', 
       if(msg.msg_Type === "Registration" ){
         console.log("Registration --> msg :",msg);
-        if(msg.ID === null){
+        if(msg.ID === 'none'){
           var new_Id = 'l2l:coordinators:'+msg.business_Key+':'+UUID.v1();
           msg.ID = new_Id;
-
           var putItemPromise = putItem(msg , db_tables); // put item into the dynamodb
           await putItemPromise.then((data) =>{
             console.log("PutItem Success", data);
@@ -56,6 +46,7 @@ exports.lambda_handler = async (event, context) => {
           console.log("Registered into AWS topic-bulletin");
         }else{
           console.log("the coordiantor was registerd, id = " , msg.ID);
+          //需要检查dynamodb中是否存在该记录，如果，不存在，则重新注册，否则更新，(实现省略)
         }
     }else{
       console.log("the type of event is wrong, should be ", msg.msg_Type);

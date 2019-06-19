@@ -10,7 +10,7 @@ Globals:
     #     S3_KEY: topic-bulletin/application.yaml 
 
 Resources:
-  HelloWorldFunction:
+  BulletinAppFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: lambda-functions/
@@ -39,6 +39,9 @@ Resources:
             FilterPolicy:
               event_type:
                 - dispatch
+  ############################################################################################
+  # For registration
+  ###########################################################################################
   RegisterFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -53,7 +56,47 @@ Resources:
             FilterPolicy:
               event_type:
                 - registration
+  ############################################################################################
+  ############################################################################################
+  # For decision-making
+  ###########################################################################################
+  PutCoordinationServiceFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda-functions/decision-making
+      Handler: decision-making-util.putItem
+      Runtime: nodejs8.10
+      Events:
+        PutCoordinationService:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /coordination-services
+            Method: put
+  ############################################################################################
+  
 
+  ############################################################################################
+  # For collaboration networking
+  ###########################################################################################
+  PutCollaborationItemFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambda-functions/collaboration-network
+      Handler: collaboration-network-util.putItem
+      Runtime: nodejs8.10
+      Events:
+        PutCoordinationService:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /collaboraion
+            Method: put
+  ############################################################################################
+
+  ############################################################################################
+  # For event pub/sub
+  ###########################################################################################
+
+  ############################################################################################
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM

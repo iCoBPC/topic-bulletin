@@ -5,10 +5,10 @@ Globals:
   Function:
     Timeout: 6
 Resources:
-  HelloWorldFunction:
+  BulletinAppFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://l2l/2ce21642f975ad644b17ad2a88374f8f
+      CodeUri: s3://l2l/fdc3aa0ca27682883ed2f1403508a602
       Handler: app.lambda_handler
       Runtime: nodejs8.10
       Events:
@@ -20,7 +20,7 @@ Resources:
   DispatchFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://l2l/2ce21642f975ad644b17ad2a88374f8f
+      CodeUri: s3://l2l/fdc3aa0ca27682883ed2f1403508a602
       Handler: dispatcher.lambda_handler
       Runtime: nodejs8.10
       Events:
@@ -34,7 +34,7 @@ Resources:
   RegisterFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://l2l/2ce21642f975ad644b17ad2a88374f8f
+      CodeUri: s3://l2l/fdc3aa0ca27682883ed2f1403508a602
       Handler: register.lambda_handler
       Runtime: nodejs8.10
       Events:
@@ -45,20 +45,3 @@ Resources:
             FilterPolicy:
               event_type:
               - registration
-Outputs:
-  HelloWorldApi:
-    Description: API Gateway endpoint URL for Prod stage for Hello World function
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
-  HelloWorldFunction:
-    Description: Hello World Lambda Function ARN
-    Value:
-      Fn::GetAtt:
-      - HelloWorldFunction
-      - Arn
-  HelloWorldFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value:
-      Fn::GetAtt:
-      - HelloWorldFunctionRole
-      - Arn
