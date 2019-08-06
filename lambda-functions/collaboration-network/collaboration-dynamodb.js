@@ -1,5 +1,7 @@
 const YAML = require('js-yaml');
 var AWS = require('aws-sdk');
+var UUID = require('uuid');
+var ddbClient = new AWS.DynamoDB.DocumentClient(); // Create the DynamoDB service object
 AWS.config.update({
     accessKeyId: 'AKIASFFPCCPAGLHYS4VW',
     secretAccessKey: '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',
@@ -12,16 +14,23 @@ var params = {
 }
 
 
-exports.putItem = async (item, db_tables) => {
-    //check if the member has existed
-    var params = {
-      TableName: db_tables[5].collaboration.name,
-      Item: item
-    };
-    // Call DynamoDB to add the item to the table
-    return ddb.putItem(params).promise();
-  }
+exports.putItem = async (data, db_tables) => {
+  var params = {
+    TableName: db_tables[5].collaboration.name,
+    Item: data
+  };
+  // Call DynamoDB to add the item to the table
+  return ddbClient.put(params).promise();
+}
   
+exports.getItem = async (data, db_tables) => {
+  var params = {
+    TableName: db_tables[5].collaboration.name,
+    Item: data
+  };
+  // Call DynamoDB to add the item to the table
+  return ddbClient.put(params).promise();
+}
 // #  协作关系表
 //  source:
 //   - source_app_id: !ref manager_01

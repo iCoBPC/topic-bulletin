@@ -8,7 +8,7 @@ Resources:
   BulletinAppFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://l2l/fdc3aa0ca27682883ed2f1403508a602
+      CodeUri: s3://l2l/c848da50bc136477bba836ddd0670b25
       Handler: app.lambda_handler
       Runtime: nodejs8.10
       Events:
@@ -20,7 +20,7 @@ Resources:
   DispatchFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://l2l/fdc3aa0ca27682883ed2f1403508a602
+      CodeUri: s3://l2l/c848da50bc136477bba836ddd0670b25
       Handler: dispatcher.lambda_handler
       Runtime: nodejs8.10
       Events:
@@ -34,7 +34,7 @@ Resources:
   RegisterFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://l2l/fdc3aa0ca27682883ed2f1403508a602
+      CodeUri: s3://l2l/c848da50bc136477bba836ddd0670b25
       Handler: register.lambda_handler
       Runtime: nodejs8.10
       Events:
@@ -45,3 +45,39 @@ Resources:
             FilterPolicy:
               event_type:
               - registration
+  PutCoordinationServiceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://l2l/9fbe6d55fd5414a53e5caf25ce3b0733
+      Handler: decision-making-util.putItem
+      Runtime: nodejs8.10
+      Events:
+        PutCoordinationService:
+          Type: Api
+          Properties:
+            Path: /coordination-services
+            Method: put
+  PutCollaborationItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://l2l/92682d59dc765ca98ced73599bcf8646
+      Handler: collaboration-network-util.putItem
+      Runtime: nodejs8.10
+      Events:
+        PutCoordinationService:
+          Type: Api
+          Properties:
+            Path: /collaboraion
+            Method: put
+  PutIVEItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://l2l/48675dc3e6542ea70953892d4b0dae85
+      Handler: ive-util.putItem
+      Runtime: nodejs8.10
+      Events:
+        PutCoordinationService:
+          Type: Api
+          Properties:
+            Path: /ive
+            Method: put

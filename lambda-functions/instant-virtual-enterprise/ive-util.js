@@ -1,7 +1,7 @@
 let response;
 const chinaTime = require('china-time');
 var s3_util = require('../s3-util.js')
-var collabration_util = require('./collaboration-dynamodb.js');
+var collabration_util = require('./ive-ddb.js');
 
 var AWS = require('aws-sdk');
 var fs = require('fs');
@@ -11,12 +11,11 @@ var snsClient = new AWS.SNS({apiVersion: '2010-03-31'}); //Create the SNS Client
 AWS.config.update({region: 'cn-northwest-1'}); // Set the region 
 
 /**
- * 提供操作协调关系的网络的API
  * msg : {
  *      'msg_type': "collaboration-relationship-put",
  *      'business_key': "xxxx",
  *       'item' : "collaboration relationship item"
- * }
+ * } 
  */
 
 
@@ -35,9 +34,9 @@ exports.putItem = async (event, context) => {
       console.log("msg : ", msg);
 
        //TODO: generate uuid, if item is new
-       if(msg.collaboration_id === "none"){
-        var new_Id = 'l2l:topic-bulletin:collaboration:'+msg.business_key+':'+UUID.v1();
-          msg.collaboration_id= new_Id;
+       if(msg.ive_id === "none"){
+        var new_Id = 'l2l:topic-bulletin:ive:'+msg.business_key+':'+UUID.v1();
+        msg.ive_id= new_Id;
        }
        var putItemPromise = collabration_util.putItem(msg , db_tables); // put item into the dynamodb
        await putItemPromise.then((data) =>{
@@ -48,7 +47,7 @@ exports.putItem = async (event, context) => {
        var response = {
         'statusCode': 200,
         'body': JSON.stringify({
-            message: "ok,  collaboration is created "+msg.collaboration_id
+            message: "ok,  ive is created "+msg.ive_id
           })
         };  
        return response;

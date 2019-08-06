@@ -1,0 +1,15 @@
+{
+    "ive-id" : "l2l:topic-bulletin:ive:lvc_ssp:18dc2a00-9a6f-11e9-b67a-0d209b3e967c",
+    "business_key": "lvc_ssp",
+    "collaboration_id" : "l2l:topic-bulletin:collaboration:lvc-ssp:4a5d5790-9a3b-11e9-aa73-037d0e251777",
+    "partners": {
+        "a" : {
+            "process-instance-id" : "vessel-instance-01",
+            "process-definition-id" : "vessel-process-01"
+        },
+        "b" : {
+            "process-instance-id" : "logistics-instance-01",
+            "process-definition-id" : "logistics-process-01"
+        }
+    }
+}

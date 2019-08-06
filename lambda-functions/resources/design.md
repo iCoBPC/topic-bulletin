@@ -199,14 +199,19 @@ pub-topics:
     - topics:
         - pub_topic_id: !ref
           role: # leader / follower
-          activityId:
           co_service_id: !ref xxx
           decision_policy: !ref xxx
+          scope: 
+            - activity_id:
+              activity_type: # process , serviceTask, userTasK ...
+
         - topicid: !ref xxx
           role:   
-          activity_id:
           co_service_id: !ref xxx
           decision_policy: !ref xxx
+          scope: 
+            - activity_id:
+              activity_type: # process , serviceTask, userTasK ...
 # Topic订阅表 sub-topics
 sub-topics:
     - subscriber: 
@@ -262,6 +267,21 @@ coordination-services:
         - default_handler: !ref lambda_default_func
 
 
+
+---
+# 即时虚拟组织
+# IVE
+# a,b业务流程实例在某类协作关系上建立协作
+instant-collaboration-partners:
+    - ive-id:
+    - collaboration_id: !ref  collaboration 
+    - partners:
+        - a : 
+            - process-instance-id:
+            - process-definition-id:
+        - b : 
+            - process-instance-id:
+            - process-definition-id:
 
 ```
 

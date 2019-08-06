@@ -1,0 +1,63 @@
+{
+    "collaboration_id": "l2l:topic-bulletin:collaboration:lvc-ssp:4a5d5790-9a3b-11e9-aa73-037d0e251777",
+    "participants": {
+        "a": {
+            "app_id": "vessel-enterprise-01",
+            "source_process_id": "vessel-process-01"
+        },
+
+        "b": {
+            "app_id": "logistics-enterprise-01",
+            "process_id": "logistics-process-01"
+        }
+    },
+    "scenario" : "ssp",
+    "coordination_relationships": {
+        "items" :   [
+            {
+                "source": "!ref participants.a", 
+                "destination" : "!ref participants.a and !ref participant.b", 
+                "business_key" : "rendezvous-port-scheduling",
+                "coordinator_policy" : "pursuit-policy",
+                "handlers":  {
+                    "items": [
+                        { 
+                            "input_topic": "\\schedule",
+                            "coordinator_id": "lvc",
+                            "coordination_service_id": "scheduling_service",
+                            "decision_policy": [
+                                "delay", 
+                                "postpone"
+                            ],
+                            "output_topic": "\\rendzvous-port"
+                        }
+                    ],
+                    "total_count": 1
+                }
+            },
+            {
+                "source": "!ref participants.b", 
+                "destination" : "!ref participants.a and !ref participant.b", 
+                "business_key" : "rendezvous-port-scheduling",
+                "coordinator_policy" : "pursuit-policy",
+                "handlers":{
+                    "items":   [
+                        { 
+                            "input_topic": "\\schedule",
+                            "coordinator_id": "lvc",
+                            "coordination_service_id": "scheduling_service",
+                            "decision_policy": [
+                                "jam",
+                                "first-schedule"
+                            ],
+                            "output_topic": "\\rendzvous-port"
+                        }
+                    ],
+                    "total_count": 1
+                }
+            }
+        ],
+        "total_count": 2
+    },
+    "timestamp": "xxxxx"
+}

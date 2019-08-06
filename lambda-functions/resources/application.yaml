@@ -13,4 +13,3 @@ application:
         name: sub-topics
     - collaboration:
         name: collaboration
-  test: newGreet

@@ -1,0 +1,33 @@
+{
+    "name" : "schedule_lvc",
+    "annotation_id" : "",
+    "destination" : "/schedule",
+    "appId": "vessel-enterprise-01",
+    "appName": "Vessel Company",
+    "processInstanceId": "vessel-instance-01",
+    "processDefinitionId" : "vessel-process-01",
+    "targetElementId" : "none",
+    "policy" : "fixed-policy",
+    "processVariables" : "",
+    "inputVariables" : {
+        "vid": "413362260",
+        "zoomInVal": 1000,
+        "vesselSchedule": [
+            {
+                "prePort": "起始点",
+                "nextPort": "黄石",
+                "estimateAnchorBeginTime": "2019-01-30 02:22:56",
+                "estimateDockingBeginTime": "2019-01-30 13:22:56",
+                "estimateDockingEndTime": "2019-01-30 18:22:56"
+            }
+        ],
+        "stepIndex": 0,
+        "startTime": "2019-01-29 20:48:56"
+    },
+    "outputVariables": {
+        "rendzvous_port": "AnQin",
+        "timeStamp": "2019-01-30 18:22:56",
+        "warehousing_cost": "3921.89",
+        "postage_cost": "5982.32"
+    }
+}
